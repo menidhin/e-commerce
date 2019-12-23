@@ -1,0 +1,131 @@
+<div class = "container">
+	<h1><%= @product.name.upcase %></h1>
+	<%= link_to "Back To Home", products_path, :class => "btn btn-dark" %><br><br>
+		<div class = "card col-6 bg-light">
+			<div class ="container m-2">
+				<h2> <%= @product.name %></h2>
+				<p><strong>Description: </strong><%= @product.description %> </p>
+				<p><strong>Category: </strong><%= @product.category.try(:name) %></p>	
+				<%= image_tag @product.image.url, :width => "50%" %><br><br>
+				<p> <strong class= "text-dark">Rs :</strong> <strong class= "text-success"><%= @product.price %></strong>/-</p>
+				<% if user_signed_in? %>
+					<% if current_user.has_role?("admin") %>
+						<div class= mb-2>
+							<%= link_to "Edit Product", edit_product_path(@product), :class => "btn btn-dark m-1" %>
+							<%= link_to "Delete Product", product_path(@product), method: :delete, :data => { :confirm => "Are You Sure?"}, :class => "btn btn-danger" %>
+						</div>
+					<% end %>
+				<% end %>	
+				<% unless current_user.has_role?("admin") %>
+					<p><%= link_to "ADD TO CART", add_to_cart_path(@product), method: :post, :data => { :confirm => "Are sure to add product into cart?"}, :class => "btn btn-warning " %>
+					<%= link_to "BUY NOW",  buy_now_path(@product), method: :post, :class => "btn btn-success" %> </p>
+					<!--<%= link_to "Like", product_likes_path(@product), :method => "post",  :class => "btn btn-primary" %>
+					<% if @product.likes.count > 0 %>
+						<p> <%= @product.likes.count %> <%= @product.likes.count == 1 ? "Like" : "Likes" %> </p>	
+								<strong> Liked by: </strong><% @product.likes.each do |like| %>
+								<%= like.user.name %>,
+								<% end %>			
+					<% end %>	-->	
+				<% end %>	
+			</div>	
+		</div>	
+	</div>
+</div>	
+
+<% if @product.product_images != ""  && !@product.product_images == 'nil' %>
+	<h2>Product Images</h2>
+<% end %>
+<div class="m-2">
+	<% if user_signed_in? %>
+		<% if current_user.has_role?("admin") %>
+			<%= link_to "Add Product Image", new_product_image_path({product_id: @product.id}), :class => "btn btn-success" %>
+		<% end %>
+	<% end %>		
+</div>
+<div class="row">
+	<% @product.product_images.each do |product_image| %>
+		<div class = "col-2 border m-1">
+			<%= image_tag product_image.product_image.url, :width =>"100%", :class => "img-fluid" %>
+			<% if user_signed_in? %>
+				<% if current_user.has_role?("admin") %>
+					<%= link_to "Delete", product_image_path(product_image), method: :delete , data: { confirm: "Are you sure?" }, :class => "btn btn-danger m-2" %>
+				<% end %>
+			<% end %>	
+	 	</div>
+  <% end %>
+</div>	
+
+
+
+<!--<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+			<% @product.product_images.each do |product_image| %>
+				<%= image_tag product_image.product_image.url, :class => "d-block w-100px" %>
+			<% end %>	
+		</div>  
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>-->
+
+
+
+<div class="container mt-5">
+ 	<h1>Reviews </h1>
+
+ 	<div class="row" id="review_data">
+ 		<% @reviews.each_with_index do |review,index| %>
+			<div class="col-sm-8 col-lg-8" id='<%=@product.id %>'>
+				<div class="review-block">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="review-block-title">
+								<p>Review : <%= review.review_body %> </p>
+							</div>
+							<div class="review-block-name">
+								<p>By: <%= review.try(:user).try(:name) %></p>
+								<p>Created at : <%= review.created_at.in_time_zone("Asia/Calcutta").strftime("%m/%d/%y %I:%M %p") %> </p>
+							</div>	
+						</div>
+					</div>
+				</div>
+			</div>	
+		<% end %>
+	</div>
+	<div class="row">
+		<div class="col-lg-8 mb-4 ">
+			<p class="text-center"><%= will_paginate @reviews %></p>
+		</div>
+	</div>
+
+
+	<%= form_for(@review, :url => product_reviews_path(@product), :html => { :method =>"post"}) do |f| %>
+		<% if @review.errors.full_messages.any? %>
+		  <% @review.errors.full_messages.each do |error_message| %>
+		    <%= error_message if @review.errors.full_messages.first == error_message %> <br />
+	 			<% end %>
+		<% end %>
+		<div class="col-lg-6">
+			<div class = "form-group">
+				<%= f.text_area :review_body, :class => "form-control", :placeholder => "Enter your review" %>
+			</div>
+			<%= f.submit "Submit", :class => "btn btn-success" %>
+			<%= link_to "Back", products_path, :class => "btn btn-primary " %>
+	 	</div>
+	<% end %>
+</div>
+
+

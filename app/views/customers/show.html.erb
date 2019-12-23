@@ -1,0 +1,24 @@
+<h1><%= @customer.name %> </h1> 
+<table class= "table table-hover">
+	<tr class= "bg-light">
+		<th>Name</th>
+		<th>Email</th>
+		<th>Age</th>
+		<th>Address</th>
+		<th>Mobile Number</th>
+		<th>Status</th>
+		<th class= "text-center">Action</th>
+	</tr>
+		<tr>
+			<td><%= @customer.name %></td>
+			<td><%= @customer.email %></td>
+			<td><%= @customer.age %></td>
+			<td><%= @customer.address %></td>
+			<td><%= @customer.mobile_number %></td>
+			<td><%= @customer.status %></td>
+			<td class= "text-center">
+				<%= link_to "Edit Customer", edit_customer_path(@customer), :class => "btn btn-warning" %>
+				<%= link_to "Delete Customer", customer_path(@customer), method: :delete, :data => { :confirm => "Are you sure?"}, :class => "btn btn-danger" %>
+			</td>
+		</tr>
+</table>				

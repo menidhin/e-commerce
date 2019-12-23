@@ -1,0 +1,14 @@
+<h1> Home Page </h1> 
+	
+
+<div class = "card col-6 bg-light">
+	<div class ="container m-2">
+		<h2>Name: <strong> <%= current_user.name %></strong></h2>
+		<p>Email: <strong><%= current_user.email %></strong></p>
+		<p>Age: <strong><%= current_user.age %></strong></p>
+		<p>Address: <strong><%= current_user.address %></strong></p>
+		<p>Mobile Number: <strong><%= current_user.mobile_number %></strong></p>
+		<p><%= link_to "Edit Account Details", edit_account_path, :class => "btn btn-warning" %></p>
+		<p><%= link_to "Delete Account", customer_path(current_user), method: :delete, :data => { :confirm => "Are you sure?"}, :class => "btn btn-danger" %></p>
+	</div>	
+</div>	

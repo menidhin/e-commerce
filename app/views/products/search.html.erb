@@ -1,0 +1,16 @@
+<h3>Search Result</h3>
+<%= link_to "Back To Home", products_path, :class => "btn btn-dark" %><br><br>
+<div class="row">  
+	<% @results.each do |result| %>        
+	  <div class = "card col-5 bg-light m-3">
+			<div class ="container p-2">			
+				<h1 class="text-center"><%= result.name %></h1>
+				<div class= "text-center"><%= image_tag result.image.url, :width => "70%" %></div><br>
+				<p class= "ml-5"><strong> Rs : </strong><strong class= "text-success"><%= result.price %></strong>/-</p>		
+				<%= link_to "View", product_path(result), :class =>"btn btn-dark" %>					
+				<%= link_to "Add To Cart", add_to_cart_path(result), method: :post, :data => { :confirm => "Are sure to add product into cart?"}, :class => "btn btn-warning" %>
+				<%= link_to "Buy Now",  buy_now_path(result), method: :post, :class => "btn btn-success" %> 	
+			</div>
+		</div>
+	<% end %>
+</div>	

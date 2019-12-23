@@ -1,0 +1,17 @@
+<div class = "container">
+	<%= form_for @category do |f| %>
+		<% if @category.errors.full_messages.any? %>
+		  <% @category.errors.full_messages.each do |error_message| %>
+		    <%= error_message if @category.errors.full_messages.first == error_message %> <br />
+	 			<% end %>
+	 	<% end %>	
+			<div class="col-lg-8">
+				<div class="form-group">
+					<%= f.label :name %>
+					<%= f.text_field :name , :class => "form-control " %>
+				</div>
+					<%= f.submit "Submit", :class => "btn btn-success" %>
+					<%= link_to "Back", categories_path , :class => "btn btn-primary " %>
+			</div>
+	<% end %>
+</div>

@@ -1,0 +1,19 @@
+<% if @customer.errors.any? %>
+  <div id="error_explanation">
+    <ul>
+      <% @customer.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<div class= "form-group col-8" >
+	<%= f.text_field :name, :placeholder => "Enter Your Name", :class =>"form-control"   %><br>
+  <%= f.text_field :email, :placeholder => "Enter Your Email", :class => "form-control" %><br>
+  <%= f.text_field :age, :placeholder => "Enter Your Age", :class => "form-control" %><br>
+  <%= f.text_field :mobile_number, :placeholder => "Enter Your Mobile Number", :class => "form-control" %><br>
+  <%= f.text_area :address, :placeholder => "Enter Your Address", :class => "form-control" %><br>  
+	<%= f.password_field :password, :placeholder => "Enter Your Password", :class => "form-control" %><br>
+	<%= f.submit "Submit", :class => "btn btn-success" %>
+	<%= link_to "Back", "/", :class => "btn btn-dark" %>
+</div>	

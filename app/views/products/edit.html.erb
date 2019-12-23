@@ -1,0 +1,4 @@
+<h1>Edit Product </h1>
+<%= form_for(@product, :url => product_path(@product), :html => { :method => "put"}) do |f| %>
+	<%= render "products/form", f: f %>
+<% end %>			

@@ -1,0 +1,55 @@
+<h1> Order Summary </h1>
+<%= form_for(@order, :url => checkout_submit_path, :html => {:method => "post"}) do |f| %>
+	<% if @order.errors.any? %>
+	  <div id="error_explanation">
+	    <ul>
+	      <% @order.errors.full_messages.each do |message| %>
+	        <li><%= message %></li>
+	      <% end %>
+	    </ul>
+	  </div>
+	<% end %>
+	<div class= "form-group col-8" >
+		<%= f.text_field :name, :placeholder => "Enter Your Name", :class =>"form-control"   %><br>
+		<%= f.text_area :address, :placeholder => "Enter Your address ", :class => "form-control" %><br>
+	  <%= f.text_field :phone_number, :placeholder => "Enter your phone number", :class => "form-control" %><br>
+	   <%= f.submit "Submit", :class => "btn btn-success" %>
+		<%= link_to "Back", products_path, :class => "btn btn-dark" %>
+	</div>	
+<% end %>	
+
+<table class= "table table-hover">
+	<tr class= "bg-light text-center">
+		<th>Product Name</th>
+		<th>Product Image</th>
+		<th>Price</th>
+		<th>Quantity</th>
+		<th> Total </th>
+	</tr>
+	<% @carts.each do |cart| %>
+		<tr class="text-center">
+			<td class= "p-5"><%= cart.product.name %></td>
+			<td class= "p-3"><%= image_tag cart.product.image.url, :width => "100px" %></td>
+			<td class= "p-5">Rs <strong class="text-success"><%= cart.product.price %></strong>/- </td>
+			<td class= "p-5"><%=cart.quantity %></td>
+			<td class= "p-5">Rs <strong class="text-success"><%= cart.product.price.to_i * cart.quantity.to_i %></strong>/-</td>
+		</tr>
+	<% end %>
+	
+	<tr> 
+		<td></td>
+		<td></td>
+		<td></td>
+		<td> <strong class = "text-danger"> Total Amount To Pay</strong></td>
+
+		<td>
+			<% sum=0 
+				@carts.each do |cart| 
+			 		sum = sum+(cart.product.price.to_i * cart.quantity.to_i)  %>
+			<% end %>	
+			Rs <strong class ="text-success"><%= sum %></strong>/-
+		</td>
+	<tr>
+	
+</table>	
+

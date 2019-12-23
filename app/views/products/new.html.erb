@@ -1,0 +1,4 @@
+<h1>Create New Product </h1>
+<%= form_for(@product, :url => "/products", :html => { :method => "post"}) do |f| %>
+	<%= render "products/form", f: f %>
+<% end %>			

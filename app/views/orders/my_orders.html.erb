@@ -1,0 +1,31 @@
+<div class="container">
+	<h1>My Orders</h1>
+	<table class=" table table-hover">
+		<tr>
+			<th>Product Name</th>
+			<th>Product Image</th>
+			<th>Product Price</th>
+			<th>Ordered Address</th>
+			<th>Status</th>
+			<th>Action</th>
+		</tr>
+		<% @orders.each do |order| %>
+			<tr>
+				<td><%= order.product.try(:name) %></td>
+				<td><%= image_tag order.product.try(:image).url, :width => "100px" %></td>	
+				<td>Rs <strong class =" text-success"><%= order.product_price %></strong> /-</td>
+				<td><%= order.address %></td>
+				<td><%= link_to "#{order.status}", "", :class => "btn btn-success" %></td>
+				<% if order.status != "Cancelled" %>
+					<td><%= link_to "Cancel order", cancelled_path(order), method: :put, :data => {confirm: "Are you sure you want to cancel the order? "}, :class => "btn btn-danger" %></td>
+				<% end %>	
+			</tr>
+		<% end %>
+	</table>			
+</div>	
+
+<div class="row">
+		<div class="col-lg-8 mb-4 ">
+			<p class="text-center"><%= will_paginate @orders %></p>
+		</div>
+</div>

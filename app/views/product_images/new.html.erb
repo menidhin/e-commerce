@@ -1,0 +1,19 @@
+<div class = "container">
+	<%= form_for(@product_image, :url =>"/product_images", :html => {:method => "post"})  do |f| %>
+		<% if @product_image.errors.full_messages.any? %>
+		  <% @product_image.errors.full_messages.each do |error_message| %>
+		    <%= error_message if @product_image.errors.full_messages.first == error_message %> <br />
+	 			<% end %>
+		<% end %>
+		<div class="col-lg-8">
+			<%= f.hidden_field :id, :value => @product_image.id %>
+			<%= f.hidden_field :product_id, :value => params[:product_id] %>
+			<div class = "form-group">
+				<%= f.label :product_image %>
+				<%= f.file_field :product_image , :class => "form-control " %>
+			</div>
+			<%= f.submit "Submit", :class => "btn btn-success" %>
+			<%= link_to "Back", products_path , :class => "btn btn-primary " %>
+	 	</div>
+	<% end %>
+</div>

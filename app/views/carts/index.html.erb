@@ -1,0 +1,28 @@
+<h1> My Cart </h1>
+<%= link_to "Back To Products", products_path, :class => "btn btn-dark mb-2" %>
+<table class= "table table-hover">
+	<tr class= "bg-light text-center">
+		<th>Product Name</th>
+		<th>Product Image</th>
+		<th>Price</th>
+		<th>Quantity</th>
+		<th> Total </th>
+		<th class= "text-center">Action</th>
+	</tr>
+	<% @carts.each do |cart| %>
+		<tr class="text-center">
+			<td class= "p-5"><%= cart.product.name %></td>
+			<td class= "p-3"><%= image_tag cart.product.image.url, :width => "100px" %></td>
+			<td class= "p-5">Rs<strong class="text-success"><%= cart.product.price %></strong>/- </td>
+			<td class= "p-5"><%=cart.quantity %></td>
+			<td class= "p-5">Rs<strong class="text-success"><%= cart.product.price.to_i * cart.quantity.to_i %></strong>/-</td>
+			<td class= "text-center p-5">
+				<%= link_to "View Product", product_path(cart.product_id), :class => "btn btn-dark" %>
+				<!--<%= link_to "Buy Now ", order_new_path(cart), :class => "btn btn-success" %> -->
+				<%= link_to "Remove From Cart", cart_path(cart), method: :delete, :data => { :confirm => "Are you sure?"}, :class => "btn btn-danger m-1" %>
+			</td>
+		</tr>
+	<% end %>
+</table>	
+
+<%= link_to "Checkout", checkout_path, :class => "btn btn-success" %>
